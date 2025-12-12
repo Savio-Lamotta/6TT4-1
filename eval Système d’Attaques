@@ -1,0 +1,54 @@
+from abc import ABC, abstractmethod
+
+class Attaque(ABC):
+    @abstractmethod
+    def calculer_degats(self):
+        pass
+
+    @abstractmethod
+    def executer(self):
+        pass
+
+class AttaqueBasique(Attaque):
+    def __init__(self, nom, degats):
+        self.nom = nom
+        self.degats = degats
+
+    def calculer_degats(self):
+        return self.degats
+
+    def executer(self):
+        print(f"{self.nom} inflige {self.degats} points de dégâts !")
+
+class AttaqueElementaire(Attaque):
+    def __init__(self, nom, element):
+        self.nom = nom
+        self.element = element
+
+    def executer(self):
+        print(f"{self.nom} de type {self.element} est lancée !")
+
+class AttaqueFeu(AttaqueElementaire):
+    def __init__(self, nom, intensite):
+        super().__init__(nom, "Feu")
+        self.intensite = intensite
+
+    def calculer_degats(self):
+        return 10 + (2 * self.intensite)
+
+class AttaqueGlace(AttaqueElementaire):
+    def __init__(self, nom, purete):
+        super().__init__(nom, "Glace")
+        self.purete = purete
+
+    def calculer_degats(self):
+        return 8 + self.purete
+
+
+a1 = AttaqueBasique("Coup de Poing", 5)
+a2 = AttaqueFeu("Boule de Feu", intensite=3)
+a3 = AttaqueGlace("Pique de Glace", purete=2)
+
+a1.executer()
+a2.executer()
+a3.executer()
